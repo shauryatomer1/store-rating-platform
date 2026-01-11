@@ -15,12 +15,20 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get('/', async (req, res) => {
+    // Check Env Vars (without revealing values)
+    const envCheck = {
+        hasDatabaseUrl: !!process.env.DATABASE_URL,
+        hasJwtSecret: !!process.env.JWT_SECRET,
+        nodeEnv: process.env.NODE_ENV,
+    };
+
     try {
         await prisma.$queryRaw`SELECT 1`;
         res.json({
             success: true,
             message: 'Store Rating Platform API',
             database: 'Connected ✅',
+            env: envCheck,
             version: '1.0.0',
         });
     } catch (error) {
@@ -28,6 +36,7 @@ app.get('/', async (req, res) => {
             success: false,
             message: 'Store Rating Platform API',
             database: 'Connection Failed ❌',
+            env: envCheck,
             error: error.message,
             version: '1.0.0',
         });
