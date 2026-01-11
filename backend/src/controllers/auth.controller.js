@@ -1,12 +1,7 @@
 const authService = require('../services/auth.service');
-
-/**
- * User signup controller
- */
 const signup = async (req, res, next) => {
     try {
         const result = await authService.signup(req.body);
-
         res.status(201).json({
             success: true,
             message: 'User registered successfully',
@@ -16,21 +11,15 @@ const signup = async (req, res, next) => {
         next(error);
     }
 };
-
-/**
- * User login controller
- */
 const login = async (req, res, next) => {
     try {
         const result = await authService.login(req.body);
-
         res.status(200).json({
             success: true,
             message: 'Login successful',
             data: result,
         });
     } catch (error) {
-        // Handle authentication errors with 401 status
         if (error.message.includes('Invalid email or password')) {
             return res.status(401).json({
                 success: false,
@@ -40,10 +29,6 @@ const login = async (req, res, next) => {
         next(error);
     }
 };
-
-/**
- * Update password controller
- */
 const updatePassword = async (req, res, next) => {
     try {
         const { currentPassword, newPassword } = req.body;
@@ -52,13 +37,11 @@ const updatePassword = async (req, res, next) => {
             currentPassword,
             newPassword
         );
-
         res.status(200).json({
             success: true,
             ...result,
         });
     } catch (error) {
-        // Handle incorrect current password with 400 status
         if (error.message.includes('incorrect')) {
             return res.status(400).json({
                 success: false,
@@ -68,7 +51,6 @@ const updatePassword = async (req, res, next) => {
         next(error);
     }
 };
-
 module.exports = {
     signup,
     login,

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { userAPI } from '../../api';
 import '../../styles/components/RatingModal.css';
-
 const UserStores = () => {
     const [stores, setStores] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,11 +12,9 @@ const UserStores = () => {
     const [hoverRating, setHoverRating] = useState(0);
     const [submitting, setSubmitting] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-
     useEffect(() => {
         fetchStores();
     }, [search]);
-
     const fetchStores = async () => {
         try {
             const response = await userAPI.getStores({ search, sortBy: 'rating', order: 'desc' });
@@ -28,7 +25,6 @@ const UserStores = () => {
             setLoading(false);
         }
     };
-
     const openRatingModal = (store, editMode = false) => {
         setSelectedStore(store);
         setIsEditMode(editMode);
@@ -36,7 +32,6 @@ const UserStores = () => {
         setHoverRating(0);
         setShowModal(true);
     };
-
     const closeModal = () => {
         setShowModal(false);
         setSelectedStore(null);
@@ -44,20 +39,16 @@ const UserStores = () => {
         setHoverRating(0);
         setIsEditMode(false);
     };
-
     const handleSubmitRating = async () => {
         if (!rating || rating < 1 || rating > 5) {
             alert('Please select a rating between 1 and 5 stars');
             return;
         }
-
         setSubmitting(true);
         try {
             if (isEditMode) {
-                // Update existing rating
                 await userAPI.updateRating(selectedStore.userRatingId, { rating });
             } else {
-                // Submit new rating
                 await userAPI.submitRating({ storeId: selectedStore.id, rating });
             }
             fetchStores();
@@ -70,14 +61,11 @@ const UserStores = () => {
             setSubmitting(false);
         }
     };
-
     if (loading) return <div className="loading-screen">Loading...</div>;
-
     return (
         <div>
             <h1>Browse Stores</h1>
             <p className="text-secondary">Find and rate stores on the platform</p>
-
             <div className="form-group" style={{ maxWidth: '400px', marginTop: '2rem' }}>
                 <input
                     type="text"
@@ -86,7 +74,6 @@ const UserStores = () => {
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
-
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
                 {stores.length === 0 ? (
                     <p>No stores found</p>
@@ -122,8 +109,7 @@ const UserStores = () => {
                     ))
                 )}
             </div>
-
-            {/* Rating Modal */}
+            {}
             {showModal && (
                 <div className="rating-modal-overlay" onClick={closeModal}>
                     <div className="rating-modal" onClick={(e) => e.stopPropagation()}>
@@ -131,7 +117,6 @@ const UserStores = () => {
                             <h2>{isEditMode ? 'Edit Rating' : 'Rate'} {selectedStore?.name}</h2>
                             <button className="close-btn" onClick={closeModal}>✕</button>
                         </div>
-
                         <div className="rating-modal-body">
                             <p>{isEditMode ? 'Update your rating' : 'How would you rate your experience?'}</p>
                             <div className="star-rating">
@@ -152,7 +137,6 @@ const UserStores = () => {
                                 {rating > 0 ? `${rating} star${rating > 1 ? 's' : ''}` : 'Select a rating'}
                             </p>
                         </div>
-
                         <div className="rating-modal-footer">
                             <button className="btn btn-secondary" onClick={closeModal} disabled={submitting}>
                                 Cancel
@@ -168,8 +152,7 @@ const UserStores = () => {
                     </div>
                 </div>
             )}
-
-            {/* Success Modal */}
+            {}
             {showSuccessModal && (
                 <div className="rating-modal-overlay">
                     <div className="success-modal">
@@ -182,5 +165,4 @@ const UserStores = () => {
         </div>
     );
 };
-
 export default UserStores;

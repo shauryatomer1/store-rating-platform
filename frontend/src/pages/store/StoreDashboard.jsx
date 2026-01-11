@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { storeAPI } from '../../api';
-
 const StoreDashboard = () => {
     const [dashboard, setDashboard] = useState(null);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         fetchDashboard();
     }, []);
-
     const fetchDashboard = async () => {
         try {
             const response = await storeAPI.getDashboard();
@@ -19,17 +16,14 @@ const StoreDashboard = () => {
             setLoading(false);
         }
     };
-
     if (loading) return <div className="loading-screen">Loading...</div>;
     if (!dashboard) return <div>No store data available</div>;
-
     return (
         <div>
             <h1>Store Dashboard</h1>
             <h2 className="text-secondary" style={{ fontWeight: 'normal', marginTop: '0.5rem' }}>
                 {dashboard.store.name}
             </h2>
-
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
                 <div className="card">
                     <h3>⭐ Average Rating</h3>
@@ -44,7 +38,6 @@ const StoreDashboard = () => {
                     </p>
                 </div>
             </div>
-
             <h2 style={{ marginTop: '2rem' }}>Rating Distribution</h2>
             <div className="card" style={{ marginTop: '1rem' }}>
                 {[5, 4, 3, 2, 1].map(rating => (
@@ -66,7 +59,6 @@ const StoreDashboard = () => {
                     </div>
                 ))}
             </div>
-
             <h2 style={{ marginTop: '2rem' }}>Recent Ratings</h2>
             <div className="table-container" style={{ marginTop: '1rem' }}>
                 <table>
@@ -101,5 +93,4 @@ const StoreDashboard = () => {
         </div>
     );
 };
-
 export default StoreDashboard;

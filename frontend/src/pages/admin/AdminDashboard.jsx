@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../../api';
-
 const AdminDashboard = () => {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         fetchDashboard();
     }, []);
-
     const fetchDashboard = async () => {
         try {
             const response = await adminAPI.getDashboard();
@@ -19,9 +16,7 @@ const AdminDashboard = () => {
             setLoading(false);
         }
     };
-
     if (loading) return <div className="loading-screen">Loading...</div>;
-
     return (
         <div>
             <h1>Admin Dashboard</h1>
@@ -42,5 +37,4 @@ const AdminDashboard = () => {
         </div>
     );
 };
-
 export default AdminDashboard;

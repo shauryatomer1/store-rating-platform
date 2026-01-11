@@ -8,12 +8,8 @@ const {
     loginValidation,
     updatePasswordValidation,
 } = require('../utils/validators');
-
-// Public routes
 router.post('/signup', signupValidation, validationMiddleware, authController.signup);
 router.post('/login', loginValidation, validationMiddleware, authController.login);
-
-// Protected routes
 router.put(
     '/password',
     authMiddleware,
@@ -21,5 +17,4 @@ router.put(
     validationMiddleware,
     authController.updatePassword
 );
-
 module.exports = router;

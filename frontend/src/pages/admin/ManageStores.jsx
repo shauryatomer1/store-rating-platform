@@ -1,37 +1,27 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../../api';
 import '../../styles/components/AdminModal.css';
-
 const ManageStores = () => {
     const [stores, setStores] = useState([]);
     const [filteredStores, setFilteredStores] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-
-    // Filter state
     const [searchTerm, setSearchTerm] = useState('');
-
-    // Sort states
     const [sortBy, setSortBy] = useState('createdAt');
     const [sortOrder, setSortOrder] = useState('desc');
-
-    // Form states
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         address: ''
     });
     const [errors, setErrors] = useState({});
-
     useEffect(() => {
         fetchStores();
     }, [sortBy, sortOrder]);
-
     useEffect(() => {
         filterStores();
     }, [stores, searchTerm]);
-
     const fetchStores = async () => {
         try {
             const response = await adminAPI.getStores({ sortBy, order: sortOrder });
@@ -42,7 +32,6 @@ const ManageStores = () => {
             setLoading(false);
         }
     };
-
     const handleSort = (column) => {
         if (sortBy === column) {
             setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -51,16 +40,12 @@ const ManageStores = () => {
             setSortOrder('asc');
         }
     };
-
     const getSortIcon = (column) => {
         if (sortBy !== column) return '↕';
         return sortOrder === 'asc' ? '↑' : '↓';
     };
-
     const filterStores = () => {
         let filtered = stores;
-
-        // Filter by search term
         if (searchTerm) {
             filtered = filtered.filter(store =>
                 store.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -68,10 +53,8 @@ const ManageStores = () => {
                 store.address.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
-
         setFilteredStores(filtered);
     };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -79,7 +62,6 @@ const ManageStores = () => {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
     };
-
     const validateForm = () => {
         const newErrors = {};
         if (!formData.name || formData.name.length < 3) newErrors.name = 'Name must be at least 3 characters';
@@ -88,11 +70,9 @@ const ManageStores = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-
         setSubmitting(true);
         try {
             await adminAPI.addStore(formData);
@@ -106,9 +86,7 @@ const ManageStores = () => {
             setSubmitting(false);
         }
     };
-
     if (loading) return <div className="loading-screen">Loading...</div>;
-
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -120,8 +98,7 @@ const ManageStores = () => {
                     + Create Store
                 </button>
             </div>
-
-            {/* Search Filter */}
+            {}
             <div style={{ marginBottom: '2rem' }}>
                 <div className="form-group" style={{ marginBottom: 0, maxWidth: '500px' }}>
                     <input
@@ -132,7 +109,6 @@ const ManageStores = () => {
                     />
                 </div>
             </div>
-
             <div className="table-container">
                 <table>
                     <thead>
@@ -171,8 +147,7 @@ const ManageStores = () => {
                     </tbody>
                 </table>
             </div>
-
-            {/* Create Store Modal */}
+            {}
             {showCreateModal && (
                 <div className="admin-modal-overlay" onClick={() => setShowCreateModal(false)}>
                     <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
@@ -180,7 +155,6 @@ const ManageStores = () => {
                             <h2>Create New Store</h2>
                             <button className="close-btn" onClick={() => setShowCreateModal(false)}>✕</button>
                         </div>
-
                         <form onSubmit={handleSubmit} className="admin-modal-body">
                             <div className="form-group">
                                 <label htmlFor="name">Store Name *</label>
@@ -195,7 +169,6 @@ const ManageStores = () => {
                                 />
                                 {errors.name && <span className="field-error">{errors.name}</span>}
                             </div>
-
                             <div className="form-group">
                                 <label htmlFor="email">Store Email *</label>
                                 <input
@@ -209,7 +182,6 @@ const ManageStores = () => {
                                 />
                                 {errors.email && <span className="field-error">{errors.email}</span>}
                             </div>
-
                             <div className="form-group">
                                 <label htmlFor="address">Store Address *</label>
                                 <textarea
@@ -223,7 +195,6 @@ const ManageStores = () => {
                                 />
                                 {errors.address && <span className="field-error">{errors.address}</span>}
                             </div>
-
                             <div className="admin-modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowCreateModal(false)}>
                                     Cancel
@@ -239,5 +210,4 @@ const ManageStores = () => {
         </div>
     );
 };
-
 export default ManageStores;

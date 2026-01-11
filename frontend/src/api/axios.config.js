@@ -1,14 +1,10 @@
 import axios from 'axios';
-
-// Create axios instance with base configuration
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
-// Request interceptor to add auth token
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
@@ -21,13 +17,10 @@ apiClient.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
-// Response interceptor for error handling
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            // Clear auth data and redirect to login
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             window.location.href = '/login';
@@ -35,5 +28,4 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
 export default apiClient;

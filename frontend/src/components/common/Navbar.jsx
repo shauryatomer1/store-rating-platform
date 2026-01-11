@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import '../../styles/components/Navbar.css';
-
 const Navbar = () => {
     const { user, logout } = useAuth();
+    const location = useLocation();
+
+    if (['/login', '/signup'].includes(location.pathname)) return null;
 
     if (!user) return null;
-
     const getRoleLinks = () => {
         switch (user.role) {
             case 'ADMIN':
@@ -35,18 +36,15 @@ const Navbar = () => {
                 return null;
         }
     };
-
     return (
         <nav className="navbar">
             <div className="nav-container">
                 <div className="nav-brand">
                     <h2>🏪 Store Rating Platform</h2>
                 </div>
-
                 <div className="nav-links">
                     {getRoleLinks()}
                 </div>
-
                 <div className="nav-user">
                     <span className="user-info">
                         <strong>{user.name}</strong>
@@ -60,5 +58,4 @@ const Navbar = () => {
         </nav>
     );
 };
-
 export default Navbar;

@@ -1,6 +1,4 @@
-/**
- * Validate name (20-60 characters, letters and spaces only)
- */
+
 export const validateName = (name) => {
     if (!name) return 'Name is required';
     if (name.length < 20 || name.length > 60) {
@@ -11,10 +9,6 @@ export const validateName = (name) => {
     }
     return '';
 };
-
-/**
- * Validate email
- */
 export const validateEmail = (email) => {
     if (!email) return 'Email is required';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,10 +17,6 @@ export const validateEmail = (email) => {
     }
     return '';
 };
-
-/**
- * Validate password (8-16 chars, 1 uppercase, 1 special char)
- */
 export const validatePassword = (password) => {
     if (!password) return 'Password is required';
     if (password.length < 8 || password.length > 16) {
@@ -40,10 +30,6 @@ export const validatePassword = (password) => {
     }
     return '';
 };
-
-/**
- * Validate address (max 400 characters)
- */
 export const validateAddress = (address) => {
     if (!address) return 'Address is required';
     if (address.length > 400) {
@@ -51,10 +37,6 @@ export const validateAddress = (address) => {
     }
     return '';
 };
-
-/**
- * Validate rating (1-5)
- */
 export const validateRating = (rating) => {
     const num = parseInt(rating);
     if (isNaN(num) || num < 1 || num > 5) {

@@ -1,4 +1,4 @@
-/* Admin Modal Styles */
+
 .admin-modal-overlay {
   position: fixed;
   top: 0;
@@ -13,7 +13,6 @@
   z-index: 2000;
   animation: fadeIn 0.3s ease;
 }
-
 .admin-modal {
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
@@ -25,7 +24,6 @@
   box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.3);
   animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
 .admin-modal-header {
   padding: 2rem 2rem 1rem;
   border-bottom: 2px solid rgba(99, 102, 241, 0.1);
@@ -38,18 +36,15 @@
   backdrop-filter: blur(20px);
   z-index: 1;
 }
-
 .admin-modal-header h2 {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
 }
-
 .admin-modal-body {
   padding: 2rem;
 }
-
 .admin-modal-footer {
   padding: 1.5rem 2rem 2rem;
   display: flex;
@@ -61,12 +56,9 @@
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
 }
-
 .admin-modal-footer .btn {
   min-width: 120px;
 }
-
-/* Detail View */
 .detail-row {
   display: flex;
   justify-content: space-between;
@@ -74,23 +66,19 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-color);
 }
-
 .detail-row:last-child {
   border-bottom: none;
 }
-
 .detail-row strong {
   color: var(--text-primary);
   font-weight: 600;
 }
-
 .detail-row span {
   color: var(--text-secondary);
   text-align: right;
   max-width: 60%;
   word-break: break-word;
 }
-
 @keyframes modalSlideUp {
   from {
     opacity: 0;
@@ -101,7 +89,6 @@
     transform: translateY(0) scale(1);
   }
 }
-
 .close-btn {
   background: none;
   border: none;
@@ -110,39 +97,31 @@
   color: var(--text-secondary);
   transition: all var(--transition-base);
 }
-
 .close-btn:hover {
   color: var(--error-color);
   transform: rotate(90deg);
 }
-
-/* Responsive */
 @media (max-width: 576px) {
   .admin-modal {
     width: 95%;
     max-height: 95vh;
   }
-
   .admin-modal-header,
   .admin-modal-body,
   .admin-modal-footer {
     padding: 1.5rem;
   }
-
   .admin-modal-footer {
     flex-direction: column;
   }
-
   .admin-modal-footer .btn {
     width: 100%;
   }
-  
   .detail-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
   .detail-row span {
     max-width: 100%;
     text-align: left;

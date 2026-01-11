@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../../api';
 import { validateName, validateEmail, validatePassword, validateAddress } from '../../utils/validators';
 import '../../styles/components/Auth.css';
-
 const Signup = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -16,41 +15,30 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState('');
     const [success, setSuccess] = useState(false);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
     };
-
     const validate = () => {
         const newErrors = {};
-
         const nameError = validateName(formData.name);
         if (nameError) newErrors.name = nameError;
-
         const emailError = validateEmail(formData.email);
         if (emailError) newErrors.email = emailError;
-
         const passwordError = validatePassword(formData.password);
         if (passwordError) newErrors.password = passwordError;
-
         const addressError = validateAddress(formData.address);
         if (addressError) newErrors.address = addressError;
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setApiError('');
-
         if (!validate()) return;
-
         setLoading(true);
         try {
             await authAPI.signup(formData);
@@ -64,7 +52,6 @@ const Signup = () => {
             setLoading(false);
         }
     };
-
     if (success) {
         return (
             <div className="auth-container">
@@ -77,7 +64,6 @@ const Signup = () => {
             </div>
         );
     }
-
     return (
         <div className="auth-container">
             <div className="auth-card">
@@ -86,10 +72,8 @@ const Signup = () => {
                     <h2>Create Your Account</h2>
                     <p>Sign up to start rating stores</p>
                 </div>
-
                 <form onSubmit={handleSubmit} className="auth-form">
                     {apiError && <div className="error-message">{apiError}</div>}
-
                     <div className="form-group">
                         <label htmlFor="name">Full Name *</label>
                         <input
@@ -105,7 +89,6 @@ const Signup = () => {
                         {errors.name && <span className="field-error">{errors.name}</span>}
                         <small className="field-hint">Letters and spaces only, 20-60 characters</small>
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="email">Email Address *</label>
                         <input
@@ -120,7 +103,6 @@ const Signup = () => {
                         />
                         {errors.email && <span className="field-error">{errors.email}</span>}
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="password">Password *</label>
                         <input
@@ -136,7 +118,6 @@ const Signup = () => {
                         {errors.password && <span className="field-error">{errors.password}</span>}
                         <small className="field-hint">8-16 chars, 1 uppercase, 1 special character</small>
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="address">Address *</label>
                         <textarea
@@ -152,12 +133,10 @@ const Signup = () => {
                         {errors.address && <span className="field-error">{errors.address}</span>}
                         <small className="field-hint">Maximum 400 characters</small>
                     </div>
-
                     <button type="submit" className="btn btn-primary" disabled={loading}>
                         {loading ? 'Creating Account...' : 'Sign Up'}
                     </button>
                 </form>
-
                 <div className="auth-footer">
                     <p>
                         Already have an account? <Link to="/login">Login here</Link>
@@ -167,5 +146,4 @@ const Signup = () => {
         </div>
     );
 };
-
 export default Signup;
