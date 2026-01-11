@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  address   String
+  role      Role     @default(USER)
+  storeId   String?  @unique @map("store_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  store   Store?   @relation("StoreOwner", fields: [storeId], references: [id])
+  ratings Rating[]
+
+  @@map("users")
+}
+
+model Store {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  address   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  ratings Rating[]
+  owner   User?    @relation("StoreOwner")
+
+  @@map("stores")
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  storeId   String   @map("store_id")
+  rating    Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // Ensure each user can rate a store only once
+  @@unique([userId, storeId])
+  @@map("ratings")
+}
+
+enum Role {
+  ADMIN
+  USER
+  STORE_OWNER
+}

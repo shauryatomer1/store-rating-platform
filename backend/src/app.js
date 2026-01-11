@@ -1,0 +1,44 @@
+const express = require('express');
+const cors = require('cors');
+const authRoutes = require('./routes/auth.routes');
+const adminRoutes = require('./routes/admin.routes');
+const userRoutes = require('./routes/user.routes');
+const storeRoutes = require('./routes/store.routes');
+const errorMiddleware = require('./middleware/error.middleware');
+
+const app = express();
+
+// Middleware
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Store Rating Platform API',
+        version: '1.0.0',
+    });
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/store', storeRoutes);
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Route not found',
+    });
+});
+
+// Error handling middleware (must be last)
+app.use(errorMiddleware);
+
+module.exports = app;
