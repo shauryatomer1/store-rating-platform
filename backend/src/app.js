@@ -5,6 +5,7 @@ const adminRoutes = require('./routes/admin.routes');
 const userRoutes = require('./routes/user.routes');
 const storeRoutes = require('./routes/store.routes');
 const errorMiddleware = require('./middleware/error.middleware');
+const prisma = require('./config/database');
 const app = express();
 app.use(cors({
     origin: '*',
@@ -13,12 +14,24 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get('/', (req, res) => {
-    res.json({
-        success: true,
-        message: 'Store Rating Platform API',
-        version: '1.0.0',
-    });
+app.get('/', async (req, res) => {
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        res.json({
+            success: true,
+            message: 'Store Rating Platform API',
+            database: 'Connected ✅',
+            version: '1.0.0',
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Store Rating Platform API',
+            database: 'Connection Failed ❌',
+            error: error.message,
+            version: '1.0.0',
+        });
+    }
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
