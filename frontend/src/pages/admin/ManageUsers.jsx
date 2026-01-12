@@ -111,7 +111,7 @@ const ManageUsers = () => {
                     + Create User
                 </button>
             </div>
-            {}
+            { }
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
                 <div className="form-group" style={{ marginBottom: 0 }}>
                     <input
@@ -177,7 +177,7 @@ const ManageUsers = () => {
                     </tbody>
                 </table>
             </div>
-            {}
+            { }
             {showCreateModal && (
                 <div className="admin-modal-overlay" onClick={() => setShowCreateModal(false)}>
                     <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
@@ -250,7 +250,7 @@ const ManageUsers = () => {
                     </div>
                 </div>
             )}
-            {}
+            { }
             {showDetailModal && selectedUser && (
                 <div className="admin-modal-overlay" onClick={() => setShowDetailModal(false)}>
                     <div className="admin-modal" onClick={(e) => e.stopPropagation()}>

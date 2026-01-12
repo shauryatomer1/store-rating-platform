@@ -13,7 +13,11 @@ const ManageStores = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        address: ''
+        address: '',
+        ownerName: '',
+        ownerEmail: '',
+        ownerPassword: '',
+        ownerAddress: ''
     });
     const [errors, setErrors] = useState({});
     useEffect(() => {
@@ -67,6 +71,13 @@ const ManageStores = () => {
         if (!formData.name || formData.name.length < 3) newErrors.name = 'Name must be at least 3 characters';
         if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Valid email is required';
         if (!formData.address || formData.address.length < 10) newErrors.address = 'Address must be at least 10 characters';
+
+        // Owner Validation
+        if (!formData.ownerName || formData.ownerName.length < 3) newErrors.ownerName = 'Owner Name must be at least 3 characters';
+        if (!formData.ownerEmail || !/\S+@\S+\.\S+/.test(formData.ownerEmail)) newErrors.ownerEmail = 'Valid owner email is required';
+        if (!formData.ownerPassword || formData.ownerPassword.length < 6) newErrors.ownerPassword = 'Owner Password must be at least 6 characters';
+        if (!formData.ownerAddress || formData.ownerAddress.length < 10) newErrors.ownerAddress = 'Owner Address must be at least 10 characters';
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -77,8 +88,12 @@ const ManageStores = () => {
         try {
             await adminAPI.addStore(formData);
             fetchStores();
+            fetchStores();
             setShowCreateModal(false);
-            setFormData({ name: '', email: '', address: '' });
+            setFormData({
+                name: '', email: '', address: '',
+                ownerName: '', ownerEmail: '', ownerPassword: '', ownerAddress: ''
+            });
             alert('Store created successfully!');
         } catch (error) {
             alert(error.response?.data?.message || 'Failed to create store');
@@ -98,7 +113,7 @@ const ManageStores = () => {
                     + Create Store
                 </button>
             </div>
-            {}
+            { }
             <div style={{ marginBottom: '2rem' }}>
                 <div className="form-group" style={{ marginBottom: 0, maxWidth: '500px' }}>
                     <input
@@ -147,7 +162,7 @@ const ManageStores = () => {
                     </tbody>
                 </table>
             </div>
-            {}
+            { }
             {showCreateModal && (
                 <div className="admin-modal-overlay" onClick={() => setShowCreateModal(false)}>
                     <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
@@ -195,12 +210,71 @@ const ManageStores = () => {
                                 />
                                 {errors.address && <span className="field-error">{errors.address}</span>}
                             </div>
+
+                            <hr style={{ margin: '1.5rem 0', border: 'none', borderTop: '1px solid var(--border-color)' }} />
+                            <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Store Owner Details</h3>
+
+                            <div className="form-group">
+                                <label htmlFor="ownerName">Owner Name *</label>
+                                <input
+                                    type="text"
+                                    id="ownerName"
+                                    name="ownerName"
+                                    value={formData.ownerName}
+                                    onChange={handleInputChange}
+                                    className={errors.ownerName ? 'error' : ''}
+                                    placeholder="Enter owner name"
+                                />
+                                {errors.ownerName && <span className="field-error">{errors.ownerName}</span>}
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="ownerEmail">Owner Email *</label>
+                                <input
+                                    type="email"
+                                    id="ownerEmail"
+                                    name="ownerEmail"
+                                    value={formData.ownerEmail}
+                                    onChange={handleInputChange}
+                                    className={errors.ownerEmail ? 'error' : ''}
+                                    placeholder="owner@example.com"
+                                />
+                                {errors.ownerEmail && <span className="field-error">{errors.ownerEmail}</span>}
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="ownerPassword">Owner Password *</label>
+                                <input
+                                    type="password"
+                                    id="ownerPassword"
+                                    name="ownerPassword"
+                                    value={formData.ownerPassword}
+                                    onChange={handleInputChange}
+                                    className={errors.ownerPassword ? 'error' : ''}
+                                    placeholder="Min 6 chars"
+                                />
+                                {errors.ownerPassword && <span className="field-error">{errors.ownerPassword}</span>}
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="ownerAddress">Owner Address *</label>
+                                <textarea
+                                    id="ownerAddress"
+                                    name="ownerAddress"
+                                    value={formData.ownerAddress}
+                                    onChange={handleInputChange}
+                                    className={errors.ownerAddress ? 'error' : ''}
+                                    placeholder="Enter owner address"
+                                    rows="2"
+                                />
+                                {errors.ownerAddress && <span className="field-error">{errors.ownerAddress}</span>}
+                            </div>
                             <div className="admin-modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowCreateModal(false)}>
                                     Cancel
                                 </button>
                                 <button type="submit" className="btn btn-primary" disabled={submitting}>
-                                    {submitting ? 'Creating...' : 'Create Store'}
+                                    {submitting ? 'Creating...' : 'Create Store & Owner'}
                                 </button>
                             </div>
                         </form>

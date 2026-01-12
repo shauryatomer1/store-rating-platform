@@ -2,8 +2,8 @@ const { body, param, query } = require('express-validator');
 const signupValidation = [
     body('name')
         .trim()
-        .isLength({ min: 20, max: 60 })
-        .withMessage('Name must be between 20 and 60 characters')
+        .isLength({ min: 3, max: 60 })
+        .withMessage('Name must be between 3 and 60 characters')
         .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Name can only contain letters and spaces'),
     body('email')
@@ -12,12 +12,8 @@ const signupValidation = [
         .withMessage('Please provide a valid email address')
         .normalizeEmail(),
     body('password')
-        .isLength({ min: 8, max: 16 })
-        .withMessage('Password must be between 8 and 16 characters')
-        .matches(/[A-Z]/)
-        .withMessage('Password must contain at least one uppercase letter')
-        .matches(/[!@#$%^&*(),.?":{}|<>]/)
-        .withMessage('Password must contain at least one special character'),
+        .isLength({ min: 6, max: 20 })
+        .withMessage('Password must be between 6 and 20 characters'),
     body('address')
         .trim()
         .isLength({ max: 400 })
@@ -56,8 +52,8 @@ const updatePasswordValidation = [
 const addStoreValidation = [
     body('name')
         .trim()
-        .isLength({ min: 20, max: 60 })
-        .withMessage('Store name must be between 20 and 60 characters'),
+        .isLength({ min: 3, max: 60 })
+        .withMessage('Store name must be between 3 and 60 characters'),
     body('email')
         .trim()
         .isEmail()
@@ -71,8 +67,8 @@ const addStoreValidation = [
         .withMessage('Address is required'),
     body('ownerName')
         .trim()
-        .isLength({ min: 20, max: 60 })
-        .withMessage('Owner name must be between 20 and 60 characters')
+        .isLength({ min: 3, max: 60 })
+        .withMessage('Owner name must be between 3 and 60 characters')
         .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Owner name can only contain letters and spaces'),
     body('ownerEmail')
@@ -81,12 +77,8 @@ const addStoreValidation = [
         .withMessage('Please provide a valid owner email address')
         .normalizeEmail(),
     body('ownerPassword')
-        .isLength({ min: 8, max: 16 })
-        .withMessage('Owner password must be between 8 and 16 characters')
-        .matches(/[A-Z]/)
-        .withMessage('Owner password must contain at least one uppercase letter')
-        .matches(/[!@#$%^&*(),.?":{}|<>]/)
-        .withMessage('Owner password must contain at least one special character'),
+        .isLength({ min: 6, max: 20 })
+        .withMessage('Owner password must be between 6 and 20 characters'),
     body('ownerAddress')
         .trim()
         .isLength({ max: 400 })
@@ -100,8 +92,8 @@ const addStoreValidation = [
 const addUserValidation = [
     body('name')
         .trim()
-        .isLength({ min: 20, max: 60 })
-        .withMessage('Name must be between 20 and 60 characters')
+        .isLength({ min: 3, max: 60 })
+        .withMessage('Name must be between 3 and 60 characters')
         .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Name can only contain letters and spaces'),
     body('email')
@@ -110,12 +102,8 @@ const addUserValidation = [
         .withMessage('Please provide a valid email address')
         .normalizeEmail(),
     body('password')
-        .isLength({ min: 8, max: 16 })
-        .withMessage('Password must be between 8 and 16 characters')
-        .matches(/[A-Z]/)
-        .withMessage('Password must contain at least one uppercase letter')
-        .matches(/[!@#$%^&*(),.?":{}|<>]/)
-        .withMessage('Password must contain at least one special character'),
+        .isLength({ min: 6, max: 20 })
+        .withMessage('Password must be between 6 and 20 characters'),
     body('address')
         .trim()
         .isLength({ max: 400 })
